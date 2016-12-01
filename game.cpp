@@ -55,7 +55,7 @@ int Game::isOver(){
     bool isFull = true;
     int j;
     for(j=0;j<9;j++){
-        if(state[i]==' '){
+        if(state.at(i)==' '){
             isFull = false;
         }
     }
