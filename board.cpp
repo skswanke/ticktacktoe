@@ -32,6 +32,10 @@ string Board::getState(){
     return s;
 }
 
+bool Board::isValid(int x, int y){
+    return board[3*(2-y)+x];
+}
+
 string Board::intToString(int i){
     if(i == 0){
         return " ";
