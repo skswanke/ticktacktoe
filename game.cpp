@@ -83,6 +83,11 @@ void Game::turn(string s){
         turn(s);
         return;
     }
+    if(!board.isValid(x,y)){
+        printf("That place is already taken!\n");
+        turn(s);
+        return;
+    }
     board.move(x, y, s);
 }
 
