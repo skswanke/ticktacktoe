@@ -16,6 +16,9 @@ public:
     // where 100 is top row 120 is mid and 022 is bottom
     // R: nothing, M: nothing, E: nothing
     string getState();
+    // Returns true or false if a move is valid
+    // R: x and y coords, M: nothing, E: nothing
+    bool isValid(int x, int y);
     friend std::ostream& operator << (std::ostream& outs, Board b);
 private:
     string intToString(int i);
