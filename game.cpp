@@ -63,6 +63,16 @@ void Game::turn(string s){
     getline(cin, input);
     int x = input.at(0) - '0';
     int y = input.at(1) - '0';
+    if(x<0 || x>2){
+        printf("x must be between 0 and 2");
+        turn(s);
+        return;
+    }
+    if(y<0 || y>2){
+        printf("y must be between 0 and 2");
+        turn(s);
+        return;
+    }
     board.move(x, y, s);
 }
 
