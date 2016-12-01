@@ -52,6 +52,16 @@ int Game::isOver(){
             return 2;
         }
     }
+    bool isFull = true;
+    int j;
+    for(j=0;j<9;j++){
+        if(state[i]==' '){
+            isFull = false;
+        }
+    }
+    if(isFull){
+        return 3;
+    }
     return 0;
     
 }
@@ -80,8 +90,10 @@ void Game::end(int i){
     cout << board << endl;
     if(i == 1){
         printf("Congrats x's win!\n");
-    } else {
+    } else if (i==2){
         printf("Congrats o's win!\n");
+    }else{
+        printf("Its a tie!\n");
     }
     exit(0);
 }
