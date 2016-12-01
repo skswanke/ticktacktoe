@@ -10,6 +10,7 @@ Game::Game(){
 
 int Game::isOver(){
     string state = board.getState();
+    printf("%s\n", state.c_str());
     string row1 = state.substr(0,3);
     string row2 = state.substr(3,3);
     string row3 = state.substr(6,3);
