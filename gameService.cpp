@@ -1,10 +1,13 @@
 // Sam Swanke
 
 #include "gameService.hpp"
+#include <iostream>
 using namespace std;
 
-int GameService::isOver(){
-    string state = board.getState();
+GameService::GameService(){}
+
+int GameService::isOver(string s){
+    string state = s;
     string row1 = state.substr(0,3);
     string row2 = state.substr(3,3);
     string row3 = state.substr(6,3);
@@ -57,18 +60,5 @@ int GameService::isOver(){
     if(isFull){
         return 3;
     }
-    return 0;
-    
-}
-
-void GameService::end(int i){
-    cout << board << endl;
-    if(i == 1){
-        printf("Congrats x's win!\n");
-    } else if (i==2){
-        printf("Congrats o's win!\n");
-    }else{
-        printf("Its a tie!\n");
-    }
-    exit(0);
+    return 0;    
 }

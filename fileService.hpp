@@ -4,6 +4,7 @@
 #define fileService_hpp
 #include <string>
 #include <iostream>
+using namespace std;
 
 class FileService {
 public:

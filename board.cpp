@@ -11,6 +11,14 @@ Board::Board(){
     }
 }
 
+Board::Board(string s){
+    int i;
+    for(i=0;i<9;i++){
+        int num = s.at(i) - '0';
+        board[i] = num;
+    }
+}
+
 void Board::move(int x, int y, string s){
     int adjY = 2-y;
     int index = 3*adjY+x;
@@ -21,6 +29,14 @@ void Board::move(int x, int y, string s){
         i=2;
     }
     board[index] = i;
+}
+
+void Board::set(string s){
+    int i;
+    for(i=0;i<9;i++){
+        int num = s.at(i) - '0';
+        board[i] = num;
+    }
 }
 
 string Board::getState(){

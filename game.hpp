@@ -3,6 +3,8 @@
 #ifndef game_hpp
 #define game_hpp
 #include "board.hpp"
+#include "gameService.hpp"
+#include "fileService.hpp"
 #include <string>
 
 class Game {
@@ -23,6 +25,8 @@ private:
     // R: n/a, M: n/a, E: n/a
     void end(int i);
     Board board;
+    GameService gameService;
+    FileService fileService;
 };
 
 #endif
