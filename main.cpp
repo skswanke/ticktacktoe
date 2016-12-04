@@ -27,11 +27,13 @@ using namespace std;
 GLdouble width, height;
 int wd;
 
-bool followActive;
+Game game;
+
+bool currPlayer = true;
 
 void init() {
-    width = 500;
-    height = 500;
+    width = 600;
+    height = 600;
 }
 
 /* Initialize OpenGL Graphics */
@@ -40,13 +42,118 @@ void initGL() {
     glClearColor(1.0f, 0.0f, 0.0f, 1.0f); // Black and opaque
 }
 
-void drawCircle(int x, int y, int radius) {
+void drawBoard(){    
+    float topThird = height - height/3;
+    float botThird = height/3;
+    float lefThird = width/3;
+    float rigThird = width - width/3;
+    float widthf = width;
+    float heightf = height;
+
+    // Top bar
+    glBegin(GL_QUADS);
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glVertex2f(0.0f, topThird-5);
+    glVertex2f(0.0f, topThird+5);
+    glVertex2f(width, topThird+5);
+    glVertex2f(width, topThird-5);
+    glEnd();
+
+    // Bot bar
+    glBegin(GL_QUADS);
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glVertex2f(0.0f, botThird-5);
+    glVertex2f(0.0f, botThird+5);
+    glVertex2f(width, botThird+5);
+    glVertex2f(width, botThird-5);
+    glEnd();
+
+    // Left bar
+    glBegin(GL_QUADS);
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glVertex2f(lefThird-5, 0.0f);
+    glVertex2f(lefThird-5, heightf);
+    glVertex2f(lefThird+5, heightf);
+    glVertex2f(lefThird+5, 0.0f);
+    glEnd();
+
+    // Right bar
+    glBegin(GL_QUADS);
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glVertex2f(rigThird-5, 0.0f);
+    glVertex2f(rigThird-5, heightf);
+    glVertex2f(rigThird+5, heightf);
+    glVertex2f(rigThird+5, 0.0f);
+    glEnd();
+}
+
+int getRealCoord(int x){
+    x = (x*200)+100;
+    return x;
+}
+
+void drawO(int x, int y) {
+    int realX = getRealCoord(x);
+    int realY = getRealCoord(y);
+    int radius = 50;
+
+    glColor4f(0.360f, 0.360f, 0.360f, 0.5f);
     glBegin(GL_TRIANGLE_FAN);
-    glVertex2i(x, y);
+    glVertex2i(realX, realY);
     for (int i = 0; i < 360; ++i) {
-        glVertex2f(x + cosf(i) * radius, y + sinf(i) * radius);
+        glVertex2f(realX + cosf(i) * radius, realY + sinf(i) * radius);
     }
     glEnd();
+}
+
+void drawX(int x, int y){
+    int realX = getRealCoord(x);
+    int realY = getRealCoord(y);
+    // realY = realY-30;
+    realX = realX-100;
+    glColor4f(0.360f, 0.360f, 0.360f, 0.5f);
+    // / bar
+    glBegin(GL_QUADS);
+    glVertex2f(realX+30, realY-60);
+    glVertex2f(realX+20, realY-50);
+    glVertex2f(realX+155, realY+60);
+    glVertex2f(realX+165, realY+50);
+    glEnd();
+    // \ bar
+    glBegin(GL_QUADS);
+    glVertex2f(realX+155, realY-60);
+    glVertex2f(realX+165, realY-50);
+    glVertex2f(realX+30, realY+60);
+    glVertex2f(realX+20, realY+50);
+    glEnd();
+}
+
+void setXYfromInt(int i,int &x, int &y){
+    x = i%3;
+    y = i/3;
+}
+
+void drawState(){
+    string state = game.board.getState();
+    int i;
+    int x;
+    int y;
+    for(i=0;i<9;i++){
+        if(state[i] == 'x'){
+            setXYfromInt(i,x,y);
+            drawX(x,y);
+        } else if (state[i] == 'o'){
+            setXYfromInt(i,x,y);
+            drawO(x,y);
+        }
+    }
+}
+
+void handleClick(int x, int y){
+    int boardX = x/200;
+    int boardY = y/200;
+    game.turn(boardX,boardY,currPlayer);
+    currPlayer = !currPlayer;
 }
 
 /* Handler for window-repaint event. Call back when the window first appears and
@@ -67,26 +174,36 @@ void display() {
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     
-    
-    glBegin(GL_QUADS);
-    glColor3f(0.0f, 0.8f, 0.8f);
-    glVertex2f(100.0f, 100.0f);
-    glVertex2f(200.0f, 200.0f);
-    glVertex2f(300.0f, 200.0f);
-    glVertex2f(400.0f, 100.0f);
-    glEnd();
-    
-    glColor4f(0.360f, 0.360f, 0.360f, 0.5f);
-
-    drawCircle(200, 200, 50);
-    
-    glBegin(GL_QUADS);
-    
-    glEnd();
-    
-    string message = "Save";
+    if(!game.gameService.isOver(game.board.getState())){
+        drawBoard();
+        drawState();
+    } else {
+        int i = game.gameService.isOver(game.board.getState());
+        string endMessage = "O's Win! Congratulations!";
+        if(i == 1){
+            endMessage = "X's Win! Congratulations!";
+        }
+        if(i == 3){
+            endMessage = "   It's a tie! Good effort!";
+        }
+        glColor3f(0.0f, 1.0f, 0.0f);
+        glRasterPos2i(width/2-130, height/2-5);
+        for (int c = 0; c < endMessage.length(); ++c) {
+            glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, endMessage[c]);
+        }
+    }
+    string message;
+    if(currPlayer){
+        message = "s: Save, esc: Exit, l: Load, turn: X";
+    } else {
+        message = "s: Save, esc: Exit, l: Load, turn: O";
+    }
     glColor3f(0.0f, 1.0f, 0.0f);
-    glRasterPos2i(210, 450);
+    glRasterPos2i(width/2-150, height - 20);
+    if(game.gameService.isOver(game.board.getState())){
+        message = "r: Restart, esc: Exit";
+        glRasterPos2i(200, height/2-30);
+    }
     for (int c = 0; c < message.length(); ++c) {
         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,
                             message[c]);
@@ -104,8 +221,17 @@ void kbd(unsigned char key, int x, int y)
         glutDestroyWindow(wd);
         exit(0);
     }
-    // space
-    if (key == 32) {
+    // r
+    if (key == 114 && game.gameService.isOver(game.board.getState())) {
+        game.board.set("000000000");
+    }
+    // s
+    if (key == 115) {
+        game.fileService.save(game.board.getState());
+    }
+    // l
+    if (key == 108) {
+        game.board.set(game.fileService.load());
     }
     glutPostRedisplay();
     
@@ -137,9 +263,8 @@ void cursor(int x, int y) {
 // button will be GLUT_LEFT_BUTTON or GLUT_RIGHT_BUTTON
 // state will be GLUT_UP or GLUT_DOWN
 void mouse(int button, int state, int x, int y) {
-    
-    if (state == GLUT_UP) {
-        followActive = !followActive;
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+        handleClick(x,y);
     }
     
     glutPostRedisplay();
@@ -174,6 +299,9 @@ int main(int argc, char** argv) {
     
     // handles mouse click
     glutMouseFunc(mouse);
+
+    // Game g;
+    // g.start();
 
     glutMainLoop();                 // Enter the event-processing loop
     return 0;

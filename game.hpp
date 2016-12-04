@@ -14,10 +14,9 @@ public:
     // Starts the game.
     // R: n/a, M: n/a, E: n/a
     void start();
-private:
     // Takes a turn.
     // R: string containing whose turn it is, M: n/a, E: n/a
-    void turn(string s);
+    void turn(int x, int y, bool player);
     // Checks if the game is won or lost.
     // R: n/a, M: n/a, E: n/a
     int isOver();
