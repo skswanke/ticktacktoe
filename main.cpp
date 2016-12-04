@@ -3,10 +3,6 @@
 #include "game.hpp"
 #include <iostream>
 using namespace std;
-/*
- * GL02Primitive.cpp: Vertex, Primitive and Color
- * Draw Simple 2D colored Shapes: quad, triangle and polygon.
- */
 #include <stdio.h>
 #include <stdlib.h>
 #ifdef _WIN32
@@ -39,7 +35,7 @@ void init() {
 /* Initialize OpenGL Graphics */
 void initGL() {
     // Set "clearing" or background color
-    glClearColor(1.0f, 0.0f, 0.0f, 1.0f); // Black and opaque
+    glClearColor(1.0f, 0.0f, 0.0f, 1.0f); // Red and opaque
 }
 
 void drawBoard(){    
@@ -239,24 +235,11 @@ void kbd(unsigned char key, int x, int y)
 }
 
 void kbdS(int key, int x, int y) {
-    switch(key) {
-        case GLUT_KEY_DOWN:
-            break;
-        case GLUT_KEY_LEFT:
-            break;
-        case GLUT_KEY_RIGHT:
-            break;
-        case GLUT_KEY_UP:
-            break;
-    }
-    
     glutPostRedisplay();
-    
     return;
 }
 
 void cursor(int x, int y) {
-    
     glutPostRedisplay();
 }
 
