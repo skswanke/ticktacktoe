@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-Board::Board(){
+Board::Board() : AbstractBoard() {
     int i;
     for(i=0;i<9;i++){
         board[i] = 0;

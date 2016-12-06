@@ -17,7 +17,6 @@ using namespace std;
 #include <GL/glut.h>
 #endif
 
-#include "graphicService.hpp"
 #include <cmath>
 
 GLdouble width, height;
@@ -148,8 +147,10 @@ void drawState(){
 void handleClick(int x, int y){
     int boardX = x/200;
     int boardY = y/200;
-    game.turn(boardX,boardY,currPlayer);
-    currPlayer = !currPlayer;
+    if(game.board.isValid(boardX,boardY)){
+        game.turn(boardX,boardY,currPlayer);
+        currPlayer = !currPlayer;
+    }
 }
 
 /* Handler for window-repaint event. Call back when the window first appears and
