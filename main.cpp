@@ -267,7 +267,7 @@ int main(int argc, char** argv) {
     glutInitWindowSize((int)width, (int)height);
     glutInitWindowPosition(100, 500); // Position the window's initial top-left corner
     /* create the window and store the handle to it */
-    wd = glutCreateWindow("Fun with Drawing!" /* title */ );
+    wd = glutCreateWindow("Tic Tac Toe!" /* title */ );
     
     
     glutDisplayFunc(display);       // Register callback handler for window re-paint event

@@ -6,6 +6,8 @@
 #include "gameService.hpp"
 #include "fileService.hpp"
 #include <string>
+#include <stdio.h>
+#include <cstdlib>
 
 class Game {
 public:
