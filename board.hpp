@@ -23,8 +23,10 @@ public:
     // Returns true or false if a move is valid
     // R: x and y coords, M: nothing, E: nothing
     bool isValid(int x, int y);
+    // Needs undo() to undo move
     friend std::ostream& operator << (std::ostream& outs, Board b);
 private:
+    // Needs last move variable
     string intToString(int i);
     void print(ostream &outs);
     int board[9];
