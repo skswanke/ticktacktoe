@@ -31,6 +31,13 @@ void Board::move(int x, int y, string s){
     board[index] = i;
 }
 
+void Board::undo(int x, int y){
+    int adjY = 2-y;
+    int index = 3*adjY+x;
+    int i = 0;
+    board[index] = i;
+}
+
 void Board::set(string s){
     int i;
     for(i=0;i<9;i++){

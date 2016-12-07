@@ -20,6 +20,7 @@ using namespace std;
 #include <cmath>
 
 GLdouble width, height;
+int lastX, lastY;
 int wd;
 
 Game game;
@@ -149,6 +150,8 @@ void handleClick(int x, int y){
     int boardY = y/200;
     if(game.board.isValid(boardX,boardY)){
         game.turn(boardX,boardY,currPlayer);
+        lastX = boardX;
+        lastY = boardY;
         currPlayer = !currPlayer;
     }
 }
@@ -230,8 +233,13 @@ void kbd(unsigned char key, int x, int y)
     if (key == 108) {
         game.board.set(game.fileService.load());
     }
+    // backspace
+    if (key == 8) {
+        game.board.undo(lastX, lastY);
+        currPlayer = !currPlayer;
+    }
+
     glutPostRedisplay();
-    
     return;
 }
 
