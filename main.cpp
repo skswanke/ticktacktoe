@@ -235,7 +235,7 @@ void kbd(unsigned char key, int x, int y)
     }
     // backspace
     if (key == 8) {
-        game.board.undo(lastX, lastY);
+        game.board.undo();
         currPlayer = !currPlayer;
     }
 
@@ -257,6 +257,9 @@ void cursor(int x, int y) {
 void mouse(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
         handleClick(x,y);
+    } else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
+        game.board.undo();
+        currPlayer = !currPlayer;
     }
     // Needs right click to call undo() on board
     
@@ -265,6 +268,43 @@ void mouse(int button, int state, int x, int y) {
 
 /* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) {
+
+    // Tests
+    // Game & Board
+    Game g;
+    // test board init
+    cout << g.board << endl;
+    // test board set
+    g.board.set("100100100");
+    cout << g.board << endl;
+    // test board move
+    g.board.move(0,0,"o");
+    cout << g.board << endl;
+    // test board isValid
+    g.board.isValid(0,0);
+    cout << g.board << endl;
+    // test Game Turn
+    g.turn(0,1,'x');
+    cout << game.board << endl;
+    // Game Service
+    if (g.gameService.isOver("x  x  x  ")) {
+        cout << "It's over." << endl;
+    } else {
+        cout << "Not over yet." << endl;
+    }
+    if (g.gameService.isOver("x  o  x  ")) {
+        cout << "It's over." << endl;
+    } else {
+        cout << "Not over yet." << endl;
+    }
+    // File Service
+    // Test Save
+    g.fileService.save("x  x  x  ");
+    // Test Load
+    cout << g.fileService.load() << endl;
+
+
+    // Main game
     
     init();
     

@@ -17,7 +17,7 @@ public:
     virtual void move(int x, int y, string s) override;
     // Removes the last move
     // Only Works Once (Can't undo moves before the last one entered)
-    void undo(int x, int y);
+    void undo();
     // Returns board state as a string of integers "100120022"
     // where 100 is top row 120 is mid and 022 is bottom
     // R: nothing, M: nothing, E: nothing
@@ -34,6 +34,7 @@ private:
     string intToString(int i);
     void print(ostream &outs);
     int board[9];
+    int lastMove;
 };
 
 #endif

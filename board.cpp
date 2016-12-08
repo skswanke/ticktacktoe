@@ -9,6 +9,7 @@ Board::Board() : AbstractBoard() {
     for(i=0;i<9;i++){
         board[i] = 0;
     }
+    lastMove = 0;
 }
 
 Board::Board(string s){
@@ -29,13 +30,11 @@ void Board::move(int x, int y, string s){
         i=2;
     }
     board[index] = i;
+    lastMove = index;
 }
 
-void Board::undo(int x, int y){
-    int adjY = 2-y;
-    int index = 3*adjY+x;
-    int i = 0;
-    board[index] = i;
+void Board::undo(){
+    board[lastMove] = 0;
 }
 
 void Board::set(string s){
